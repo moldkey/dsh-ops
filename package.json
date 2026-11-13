@@ -1,0 +1,45 @@
+{
+  "name": "@liangjiehappy/dsh-ops",
+  "version": "0.3.5",
+  "description": "DSH 网站运维工作台：一句话建站（自动配 nginx + 申请证书），查 SEO/GEO/安全与真实流量，部署前看影响分析、出问题一键回滚；新增流量分析、HTTP 探测、读文件、服务管理、只读诊断命令。",
+  "description_en": "DSH operations workbench: check health, SEO, GEO, code and security for DSH-managed sites, with snapshot, deploy and automatic rollback.",
+  "type": "module",
+  "main": "lib/index.js",
+  "files": [
+    "lib",
+    "cordis.patch.yml",
+    "README.md",
+    "README.zh.md"
+  ],
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "dsh-plugin",
+    "dshio",
+    "ops",
+    "devops",
+    "site-monitoring",
+    "deployment",
+    "seo",
+    "geo",
+    "snapshot",
+    "rollback",
+    "traffic",
+    "logs",
+    "diagnostics"
+  ],
+  "license": "MIT",
+  "homepage": "https://deepseekbase.com/work/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moldkey/dsh-ops.git"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "engines": {
+    "dsh": ">=0.2.0-rc.2"
+  }
+}
