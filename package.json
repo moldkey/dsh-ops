@@ -18,3 +18,28 @@
     "dshio",
     "ops",
     "devops",
+    "site-monitoring",
+    "deployment",
+    "seo",
+    "geo",
+    "snapshot",
+    "rollback",
+    "traffic",
+    "logs",
+    "diagnostics"
+  ],
+  "license": "MIT",
+  "homepage": "https://deepseekbase.com/work/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moldkey/dsh-ops.git"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "engines": {
+    "dsh": ">=0.2.0-rc.2"
+  }
+}
