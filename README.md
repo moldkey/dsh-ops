@@ -1,3 +1,4 @@
+[![DSHIO/T 10](https://dshio.org/badge/std.svg)](https://dshio.org/10/) [![deepseekbase](https://deepseekbase.com/badge/dsh-ops.svg)](https://deepseekbase.com/plugins/dsh-ops/)
 # @liangjiehappy/dsh-ops — DSH Ops Workbench
 
 [中文说明](README.zh.md)
