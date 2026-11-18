@@ -5,7 +5,7 @@
 跑在 DSH 裡的開發運維工作台。檢查站點的健康、SEO、GEO、代碼與安全，
 並提供快照、部署、回滾，失敗自動恢復。
 
-**21 個工具 + 1 個技能。含 BAOVOO 托管發布（`ops_publish_hosted`）與遷移驗收。**
+**16 個工具 + 1 個技能。**
 
 ## 安裝
 
@@ -41,27 +41,6 @@ dsh plugin config dsh-ops --set api_key=<你的 key>
 | `ops_disk` | 磁盤體檢與清理：journal / nginx 緩存 / 舊快照 / 舊壓縮日誌，默認先預覽 | **是**（clean 時） |
 | `ops_verify` | 狀態漂移檢查：改過的東西有沒有被回滾（導航/分層/指紋/301/統計等 9 項） | 否 |
 | `ops_teardown` | 對標站點拆解分析：欄目結構、導航分組、標題層級、結構化數據、技術特徵 | 否 |
-| `ops_publish_hosted` | 把站點發布到 BAOVOO 托管子域（如 `alice.baovoo.com`） | **是**（發布）|
-| `ops_backup` | 備份項目伺服器的資料庫（pg_dump → `/root/ops/backups/db`，保留 7 份）| 是（新增備份文件）|
-
-## 發布到 BAOVOO 托管（`ops_publish_hosted`）
-
-把已經做好的靜態站一鍵發到 `<name>.baovoo.com`，自動配好 SSL 與二級域名：
-
-```
-ops_publish_hosted(
-  name: "alice",              // 子域名前綴 → alice.baovoo.com
-  src: "/var/www/mysite"      // 要發布的目錄
-)
-```
-
-前提：該項目已綁定 BAOVOO 托管。還沒有站？從 <https://baovoo.com/> 開一個，
-插件與判定在 <https://deepseekbase.com/plugins/>。
-
-## 更新記錄
-
-見 [CHANGELOG.md](CHANGELOG.md)。0.5.0 新增 `ops_backup` 與 `ops_migrate_check`，
-並保留 `ops_publish_hosted`（BAOVOO 托管發布）。
 
 ## 遷移驗收（`ops_migrate_check`）
 

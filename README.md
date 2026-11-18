@@ -6,7 +6,7 @@
 A dev/ops workbench for DSH-managed sites. It checks health, SEO, GEO, code
 and security, and does snapshot / deploy / rollback with automatic recovery.
 
-**21 tools + 1 skill. Includes BAOVOO hosting publish (`ops_publish_hosted`) and migration acceptance checks.**
+**16 tools + 1 skill.**
 
 ## Install
 
@@ -40,26 +40,6 @@ Or set the environment variable `DSH_OPS_KEY`.
 | `ops_service` | Service status / restart / reload / `nginx -t` (authorised units only) | **yes** (restart/reload) |
 | `ops_exec` | Read-only diagnostics: `df` `du` `ps` `uptime` `wc` `grep` `nginx_test` | no |
 | `ops_disk` | Disk status / cleanup (journal, nginx cache, old snapshots, old rotated logs); dry-run by default | **yes** (on clean) |
-
-## Publish to BAOVOO hosting (`ops_publish_hosted`)
-
-Ship a finished static site to `<name>.baovoo.com` with SSL and a subdomain:
-
-```
-ops_publish_hosted(
-  name: "alice",              // subdomain prefix → alice.baovoo.com
-  src: "/var/www/mysite"      // directory to publish
-)
-```
-
-Requires the project to be linked to BAOVOO hosting. No site yet? Start at
-<https://baovoo.com/>; plugins and verdicts live at
-<https://deepseekbase.com/plugins/>.
-
-## Changelog
-
-See [CHANGELOG.md](CHANGELOG.md). 0.5.0 adds `ops_backup` and
-`ops_migrate_check`, and keeps `ops_publish_hosted` (BAOVOO hosting publish).
 
 ## Migration acceptance (`ops_migrate_check`)
 
