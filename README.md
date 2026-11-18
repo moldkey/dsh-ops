@@ -6,7 +6,7 @@
 A dev/ops workbench for DSH-managed sites. It checks health, SEO, GEO, code
 and security, and does snapshot / deploy / rollback with automatic recovery.
 
-**14 tools + 1 skill.**
+**21 tools + 1 skill. Includes BAOVOO hosting publish (`ops_publish_hosted`) and migration acceptance checks.**
 
 ## Install
 
@@ -35,10 +35,50 @@ Or set the environment variable `DSH_OPS_KEY`.
 | `ops_restart` | Restart a systemd service | **yes** |
 | `ops_traffic` | Real traffic: today vs yesterday, humans vs bots vs service worker, top pages and landing pages | no |
 | `ops_http` | Probe page status, size, title and latency from the server | no |
+| `ops_migrate_check` | Migration acceptance: hit the same paths on old and new host, diff status codes, surface "exists on old, missing on new" regressions | no |
 | `ops_read` | Read a server text file (code/config/log) with line numbers and secret redaction | no |
 | `ops_service` | Service status / restart / reload / `nginx -t` (authorised units only) | **yes** (restart/reload) |
 | `ops_exec` | Read-only diagnostics: `df` `du` `ps` `uptime` `wc` `grep` `nginx_test` | no |
 | `ops_disk` | Disk status / cleanup (journal, nginx cache, old snapshots, old rotated logs); dry-run by default | **yes** (on clean) |
+
+## Publish to BAOVOO hosting (`ops_publish_hosted`)
+
+Ship a finished static site to `<name>.baovoo.com` with SSL and a subdomain:
+
+```
+ops_publish_hosted(
+  name: "alice",              // subdomain prefix → alice.baovoo.com
+  src: "/var/www/mysite"      // directory to publish
+)
+```
+
+Requires the project to be linked to BAOVOO hosting. No site yet? Start at
+<https://baovoo.com/>; plugins and verdicts live at
+<https://deepseekbase.com/plugins/>.
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md). 0.5.0 adds `ops_backup` and
+`ops_migrate_check`, and keeps `ops_publish_hosted` (BAOVOO hosting publish).
+
+## Migration acceptance (`ops_migrate_check`)
+
+After moving a site to a new host, changing domains or switching CDN: hit the same
+paths on old and new host and diff the status codes. **No API key needed — it probes
+over plain HTTP, so any user can run it right after install.**
+
+```
+ops_migrate_check(
+  source: "https://1.2.3.4",         // old host (IP works with source_host)
+  source_host: "example.com",        // Host header for the old host
+  target: "https://new.example.com",
+  // paths: omitted => discovered from the new host's sitemap.xml
+  insecure: true                      // cert not ready / accessing by IP
+)
+```
+
+Verdicts: `REGRESSION` exists on old, missing on new (must fix); `NEW`; `OK`; `BOTH_MISSING`.
+GET only — no login, no form posts, no writes.
 
 ## Checkers (15)
 
@@ -80,3 +120,10 @@ Third-party project. Not affiliated with DeepSeek.
 - Homepage: <https://deepseekbase.com/work/>
 - Standards: <https://dshio.org/>
 - License: MIT
+## 装完之后先看什么
+
+1. 跑一次体检：`ops_status` 看你管的所有站点
+2. 有问题的站：`ops_issues` 看清单，`ops_check` 复查
+3. 要改站点：先 `ops_snapshot`，再 `ops_deploy`（dry-run 看影响）
+4. 工具集合（2,268 个工具，一条命令）：<https://deepseekbase.com/bundles/>
+5. 标准引用：DSHIO/T 10 插件标准 · DSHIO/T 21 测试条件 · DSHIO/T 32 认证规则

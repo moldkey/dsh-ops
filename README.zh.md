@@ -5,7 +5,7 @@
 跑在 DSH 裡的開發運維工作台。檢查站點的健康、SEO、GEO、代碼與安全，
 並提供快照、部署、回滾，失敗自動恢復。
 
-**15 個工具 + 1 個技能。**
+**21 個工具 + 1 個技能。含 BAOVOO 托管發布（`ops_publish_hosted`）與遷移驗收。**
 
 ## 安裝
 
@@ -34,12 +34,65 @@ dsh plugin config dsh-ops --set api_key=<你的 key>
 | `ops_restart` | 重啟 systemd 服務 | **是** |
 | `ops_traffic` | 真實流量：今天 vs 昨天，真人/機器人/SW 分開，列出真人最常看的頁面與落地頁 | 否 |
 | `ops_http` | 從伺服器側探測頁面 HTTP 狀態、大小、標題、耗時 | 否 |
+| `ops_migrate_check` | 遷移驗收：同一批路徑分別打舊站與新站，逐條比狀態碼，找出「舊站有、新站沒有」的回歸 | 否 |
 | `ops_read` | 讀伺服器文字檔（代碼/設定/日誌），帶行號、自動打碼密鑰 | 否 |
 | `ops_service` | 服務狀態 / 重啟 / 重載 / `nginx -t`（只限授權單元） | **是**（restart/reload）|
 | `ops_exec` | 只讀診斷指令目錄：`df` `du` `ps` `uptime` `wc` `grep` `nginx_test` | 否 |
 | `ops_disk` | 磁盤體檢與清理：journal / nginx 緩存 / 舊快照 / 舊壓縮日誌，默認先預覽 | **是**（clean 時） |
 | `ops_verify` | 狀態漂移檢查：改過的東西有沒有被回滾（導航/分層/指紋/301/統計等 9 項） | 否 |
 | `ops_teardown` | 對標站點拆解分析：欄目結構、導航分組、標題層級、結構化數據、技術特徵 | 否 |
+| `ops_publish_hosted` | 把站點發布到 BAOVOO 托管子域（如 `alice.baovoo.com`） | **是**（發布）|
+| `ops_backup` | 備份項目伺服器的資料庫（pg_dump → `/root/ops/backups/db`，保留 7 份）| 是（新增備份文件）|
+
+## 發布到 BAOVOO 托管（`ops_publish_hosted`）
+
+把已經做好的靜態站一鍵發到 `<name>.baovoo.com`，自動配好 SSL 與二級域名：
+
+```
+ops_publish_hosted(
+  name: "alice",              // 子域名前綴 → alice.baovoo.com
+  src: "/var/www/mysite"      // 要發布的目錄
+)
+```
+
+前提：該項目已綁定 BAOVOO 托管。還沒有站？從 <https://baovoo.com/> 開一個，
+插件與判定在 <https://deepseekbase.com/plugins/>。
+
+## 更新記錄
+
+見 [CHANGELOG.md](CHANGELOG.md)。0.5.0 新增 `ops_backup` 與 `ops_migrate_check`，
+並保留 `ops_publish_hosted`（BAOVOO 托管發布）。
+
+## 遷移驗收（`ops_migrate_check`）
+
+遷機、換域名、換 CDN 之後跑一遍：同一批路徑分別打舊站和新站，逐條比狀態碼。
+**不需要 API key，自帶 HTTP 探測，任何用戶裝上就能用。**
+
+```
+ops_migrate_check(
+  source: "https://1.2.3.4",         // 舊站（用 IP 時配合 source_host）
+  source_host: "example.com",        // 舊站的 Host 頭
+  target: "https://new.example.com",
+  // paths: 不傳則自動從新站 sitemap.xml 抓
+  insecure: true                      // 證書還沒簽好 / 用 IP 訪問
+)
+```
+
+輸出：
+
+```
+路徑                                      舊站    新站  判定
+----------------------------------------------------------------
+/                                      200   200  ✓
+/upgrade/                              200   404  ❌ 回歸
+/pricing/                              404   200  NEW
+
+匯總: OK 6 · 回歸 4 · 新增 1 · 兩邊都缺 0
+```
+
+判定：`REGRESSION` 舊站有、新站沒有（必須修）；`NEW` 新增；`OK` 一致；`BOTH_MISSING` 兩邊都 404。
+
+只發 GET，不登錄、不提交表單、不改任何東西。
 
 ## 檢查器（15 個）
 
