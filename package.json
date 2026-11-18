@@ -1,15 +1,16 @@
 {
   "name": "@liangjiehappy/dsh-ops",
-  "version": "0.5.1",
-  "description": "AI 宝塔 + AI 建站运维：一句话建站（nginx+证书自动配置）、站点体检（SEO/GEO/安全/真实流量）、部署前影响分析、出问题一键回滚；另含数据库备份与远程部署。工具集合见 deepseekbase.com/bundles/",
-  "description_en": "AI control panel and site operations for DSH: one-sentence site creation (nginx + certificate), health checks (SEO/GEO/security/traffic), pre-deploy impact analysis, one-click rollback.",
+  "version": "0.5.2",
+  "description": "AI 宝塔 + AI 建站运维：一句话建站（nginx+证书自动配置）、站点体检（SEO/GEO/安全/真实流量）、部署前影响分析、出问题一键回滚；另含数据库备份与远程部署。含 BAOVOO 托管发布（ops_publish_hosted）。",
+  "description_en": "AI control panel and site operations for DSH: one-sentence site creation (nginx + certificate), health checks (SEO/GEO/security/traffic), pre-deploy impact analysis, one-click rollback, database backup, migration checks and BAOVOO hosting publish.",
   "type": "module",
   "main": "lib/index.js",
   "files": [
     "lib",
     "cordis.patch.yml",
     "README.md",
-    "README.zh.md"
+    "README.zh.md",
+    "CHANGELOG.md"
   ],
   "keywords": [
     "dsh",
@@ -29,6 +30,7 @@
     "diagnostics",
     "dshio-standard",
     "deepseekbase",
+    "baovoo",
     "control-panel",
     "site-builder",
     "ai-baota"
@@ -57,7 +59,6 @@
     "bundles": "https://deepseekbase.com/bundles/"
   },
   "author": {
-    "name": "deepseekbase",
-    "url": "https://deepseekbase.com"
+    "name": "deepseekbase"
   }
 }
