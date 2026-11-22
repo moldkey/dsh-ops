@@ -1,3 +1,11 @@
+## 0.5.10
+
+- README 增加右侧面板说明：标签位置、自动打开、看不到面板的排查、权限、工具调用顺序
+- README 增加问题反馈途径：面板内反馈框、站点反馈按钮、插件页入口
+- 面板「体检」改为显示进度与汇总（总分/通过/警告/失败），不再直接吐原始证据 JSON
+- 面板公共信息区新增「平台站点」：deepseekbase/dshio/baovoo/mj7/mfgabc/cadpop/deepseeks/oracleluck，带状态点，点击直达
+- 面板注册改为 slots.inject，修复 rc.5 下右侧栏不显示
+
 # Changelog
 
 ## 0.5.3 — 2026-11-19

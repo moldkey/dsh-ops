@@ -127,3 +127,44 @@ Third-party project. Not affiliated with DeepSeek.
 3. 要改站点：先 `ops_snapshot`，再 `ops_deploy`（dry-run 看影响）
 4. 工具集合（2,268 个工具，一条命令）：<https://deepseekbase.com/bundles/>
 5. 标准引用：DSHIO/T 10 插件标准 · DSHIO/T 21 测试条件 · DSHIO/T 32 认证规则
+
+## Side panels
+
+Installing this plugin adds two tabs to the DSH right sidebar:
+
+| Tab | What it does |
+|---|---|
+| **DSH-OPS** | Site overview and actions: site count, healthy / needs attention, open issues, last check; after sign-in shows account, role and your sites; per-site actions: open, check, snapshot, deploy |
+| **DSH-DEV** | Plugin development: scaffold, static checks, four-stage sandbox results |
+
+DSH-OPS opens automatically about 1.5 s after install.
+
+**Panel missing?**
+
+1. Make sure the plugin is 0.5.9 or newer (0.5.8 and earlier do not render on rc.5)
+2. Open the right-sidebar tab list and pick DSH-OPS
+3. Still missing: restart DSH (a page refresh is not enough)
+
+**Permissions:** owner / admin can check, snapshot and deploy; operator can only check.
+
+## Recommended workflow
+
+    1. ops_status            scores and open issues for every site
+    2. ops_issues            issue list for one site
+    3. ops_check             re-check to confirm
+    4. ops_snapshot          snapshot before deploying
+    5. ops_deploy(dry_run=1) review impact first
+    6. ops_deploy            deploy
+    7. ops_check             verify after deploy
+
+Use `ops_rollback` with the snapshot from step 4 if a deploy fails. Every action is written to the audit log.
+
+## Feedback
+
+Three ways to report a problem or request a feature; all land in the same feedback store:
+
+1. **In the panel**: the "问题反馈" box at the bottom of the DSH-OPS panel (at least 10 characters)
+2. **On the website**: the "问题反馈" button at the bottom-right of any page on deepseekbase.com
+3. **On the plugin page**: the feedback entry on plugin detail pages at https://deepseekbase.com/plugins/
+
+Feedback is stored in the deepseekbase feedback store and visible to the workbench at /work/feedback/.
