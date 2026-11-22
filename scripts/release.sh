@@ -46,6 +46,29 @@ if c and not os.path.exists(os.path.join(root,'lib','client.js')):
 print('  ✓ 包内容校验通过' + ('（含 client）' if c else ''))
 PY
 
+echo "-- 检查 3/3b: 入口可激活（export apply / patch 名称一致）"
+python3 - "$TMP/package" <<'PY'
+import json, os, re, sys
+root = sys.argv[1]
+pkg = json.load(open(os.path.join(root, 'package.json')))
+entry = os.path.join(root, 'lib', 'index.js')
+src = open(entry, encoding='utf-8').read()
+ok = bool(re.search(r'export\s+(async\s+)?function\s+apply\b', src)
+          or re.search(r'export\s*\{[^}]*\bapply\b', src)
+          or re.search(r'exports\.apply\s*=', src))
+if not ok:
+    print('  ✗ 入口没有导出 apply —— 安装能过，激活必失败'); sys.exit(1)
+patch = (pkg.get('dsh') or {}).get('bundle', {}).get('patch')
+if patch:
+    p = os.path.join(root, patch.lstrip('./'))
+    if not os.path.exists(p):
+        print('  ✗ patch 文件不存在: ' + patch); sys.exit(1)
+    txt = open(p, encoding='utf-8').read()
+    if pkg['name'] not in txt:
+        print('  ✗ patch 里没有引用包名，挂载会失败'); sys.exit(1)
+print('  ✓ 入口导出 apply，patch 引用正确')
+PY
+
 echo "-- 写版本号并推送"
 python3 - "$VER" <<'PY'
 import json,sys
