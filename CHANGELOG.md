@@ -1,3 +1,7 @@
+## 0.5.14
+
+- ops_check 对 skip 状态显示 –，不再误显示 ✗
+
 ## 0.5.13
 
 - ops_service 支持 stop / disable / enable（需服务端 ops_ext 同步支持）
