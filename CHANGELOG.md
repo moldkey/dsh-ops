@@ -1,3 +1,8 @@
+## 0.5.13
+
+- ops_service 支持 stop / disable / enable（需服务端 ops_ext 同步支持）
+- 流量输出在真人 UV 后显示访客 / 单页 / 多页
+
 ## 0.5.11
 
 - 修复 ops_exec 参数合并：path/pattern 等未传时会覆盖 args 里的同名字段，content/old/new 也能透传
