@@ -1,3 +1,7 @@
+## 0.5.19
+
+- 新增 ops_upload：上传本地文件/文本到项目允许目录（项目级 upload_token 或 api_key 鉴权）
+
 ## 0.5.18
 
 - 安全：不再内置 deepseekbase 生产 API 地址；必须由使用者配置 config.base
