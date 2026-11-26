@@ -1,3 +1,9 @@
+## 0.5.16
+
+- ops_read 明确 project 必填，跨机项目走 SSH
+- ops_doctor 对跨机项目在远端检查目录
+- 服务端同步修复：remote_json 回退识别、SQLite Row 兼容、缺失 slug 返回 400
+
 ## 0.5.15
 
 - 工具层无功能变更；配合服务端修复发布（ops_restart 恢复、oracleluck JSON-LD 守卫）
