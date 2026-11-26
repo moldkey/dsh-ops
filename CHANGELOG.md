@@ -1,3 +1,7 @@
+## 0.5.15
+
+- 工具层无功能变更；配合服务端修复发布（ops_restart 恢复、oracleluck JSON-LD 守卫）
+
 ## 0.5.14
 
 - ops_check 对 skip 状态显示 –，不再误显示 ✗
